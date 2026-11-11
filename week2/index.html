@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sachin Maurya | Front-End Developer Portfolio</title>
+  <meta name="description" content="Portfolio of Sachin Maurya, a web development student building accessible, responsive websites.">
+  <meta name="author" content="Sachin Maurya">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sachin Maurya | Front-End Developer Portfolio">
+  <meta property="og:description" content="Portfolio of Sachin Maurya, a web development student building accessible, responsive websites.">
+  <link rel="icon" href="data:,">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html">Sachin Maurya</a>
+    <nav aria-label="Primary">
+      <ul role="list">
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark mode</button>
+  </header>
+  <main id="main" tabindex="-1">
+    <div class="hero">
+      <div>
+        <h1>Hi, I'm Sachin Maurya. I build accessible websites.</h1>
+        <p>I'm a web development student who learns by building real projects. This portfolio is written in semantic HTML and checked with a keyboard and a screen reader.</p>
+        <p class="actions"><a class="button" href="projects.html">See my projects</a> <a href="contact.html">Contact me</a></p>
+      </div>
+      <section class="glance" aria-labelledby="glance-title">
+        <svg width="96" height="96" viewBox="0 0 96 96" role="img" aria-labelledby="avatar-title">
+          <title id="avatar-title">Avatar with the initials SM</title>
+          <circle cx="48" cy="48" r="48" fill="#1d4ed8"/>
+          <text x="48" y="58" text-anchor="middle" font-size="32" font-family="Georgia, serif" fill="#ffffff">SM</text>
+        </svg>
+        <h2 id="glance-title">At a glance</h2>
+        <dl>
+          <dt>Based in</dt><dd>Noida, India</dd>
+          <dt>Focus</dt><dd>HTML, CSS and JavaScript</dd>
+          <dt>Currently learning</dt><dd>Asynchronous JavaScript and REST APIs</dd>
+        </dl>
+      </section>
+    </div>
+    <section aria-labelledby="skills-title">
+      <h2 id="skills-title">Skills</h2>
+      <ul class="chips" role="list">
+        <li>Semantic HTML5</li>
+        <li>WCAG accessibility</li>
+        <li>CSS Grid and Flexbox</li>
+        <li>Responsive design</li>
+        <li>Git and GitHub</li>
+        <li>JavaScript (learning)</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>&copy; 2026 Sachin Maurya. Built with semantic HTML5.</p>
+    <p><a href="#main">Back to top</a></p>
+  </footer>
+</body>
+</html>
