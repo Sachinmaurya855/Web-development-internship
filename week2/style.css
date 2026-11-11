@@ -1,0 +1,127 @@
+/* Week 2: Advanced CSS3 & Responsive Architecture (mobile-first) */
+
+/* 1. Design tokens: custom properties for the light/dark theme */
+:root {
+  color-scheme: light;
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --text: #14213d;
+  --muted: #475670;
+  --line: #d3dbe8;
+  --accent: #1d4ed8;
+  --on-accent: #ffffff;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --space: clamp(1rem, 0.6rem + 2vw, 2rem);
+  --radius: 0.5rem;
+}
+/* Dark follows the OS unless the visitor chose light with the toggle */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0d1424; --surface: #152038; --text: #e8eefb;
+    --muted: #a9b6cf; --line: #2a3856; --accent: #8ab4ff; --on-accent: #0d1424;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d1424; --surface: #152038; --text: #e8eefb;
+  --muted: #a9b6cf; --line: #2a3856; --accent: #8ab4ff; --on-accent: #0d1424;
+}
+
+/* 2. Base */
+*, *::before, *::after { box-sizing: border-box; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0;
+  font: 1.0625rem/1.65 var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  /* CSS Grid page layout: header / main / footer */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+}
+.site-header, main, .site-footer { width: min(100% - 2 * var(--space), 72rem); margin-inline: auto; }
+main { padding-block: var(--space); }
+main:focus { outline: none; }
+h1, h2 { font-family: var(--font-display); line-height: 1.15; margin: 0 0 0.5em; text-wrap: balance; }
+h1 { font-size: clamp(2.25rem, 1.2rem + 5vw, 4.25rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2rem); }
+p, li, dd { max-width: 65ch; }
+a { color: var(--accent); text-underline-offset: 0.2em; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; inset-block-start: -4rem; inset-inline-start: 1rem; z-index: 10;
+  padding: 0.5rem 1rem; background: var(--accent); color: var(--on-accent); border-radius: var(--radius);
+}
+.skip-link:focus { inset-block-start: 1rem; }
+
+/* 3. Header: Flexbox. Mobile = brand + toggle, then nav on its own row */
+.site-header { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+.brand { margin-inline-end: auto; font: 700 1.25rem var(--font-display); color: var(--text); text-decoration: none; }
+.theme-toggle { order: 2; }
+.site-header nav { order: 3; flex-basis: 100%; }
+.site-header ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0; padding: 0; list-style: none; }
+.site-header nav a { display: block; padding: 0.4rem 0; color: var(--text); text-decoration: none; border-bottom: 2px solid transparent; }
+.site-header nav a:hover { border-color: var(--muted); }
+.site-header nav a[aria-current="page"] { border-color: var(--accent); font-weight: 600; }
+
+/* 4. Buttons */
+.button, button { font: inherit; font-weight: 600; border-radius: 999px; cursor: pointer; }
+.button, button[type="submit"] { display: inline-block; padding: 0.7rem 1.4rem; background: var(--accent); color: var(--on-accent); border: 2px solid var(--accent); text-decoration: none; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.9rem; background: transparent; color: var(--text); border: 1px solid var(--muted); }
+.theme-toggle::before { content: ""; inline-size: 0.9rem; block-size: 0.9rem; border: 2px solid currentColor; border-radius: 50%; }
+.theme-toggle[aria-pressed="true"]::before { background: currentColor; }
+
+/* 5. Home: two-column Grid hero */
+.hero { display: grid; gap: var(--space); padding-block: calc(var(--space) * 1.5); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+.glance { padding-block: 1rem; border-block: 1px solid var(--line); }
+.glance svg { display: block; inline-size: 5rem; block-size: 5rem; margin-block-end: 0.75rem; }
+.glance circle { fill: var(--accent); }
+.glance text { fill: var(--on-accent); }
+dl { margin: 0; }
+dt { margin-top: 0.75rem; font-weight: 600; }
+dd { margin: 0; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.chips li { padding: 0.25rem 0.85rem; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; font-size: 0.95rem; }
+section + section { margin-top: var(--space); }
+
+/* 6. About */
+.prose { max-width: 42rem; }
+ol { padding-inline-start: 1.25rem; }
+
+/* 7. Projects: auto-fit Grid of Flexbox cards */
+.project-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); margin-top: var(--space); }
+.project-grid article { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.25rem; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: var(--radius); }
+.project-grid h2 { margin: 0; font-size: 1.5rem; }
+.project-grid footer { margin-top: auto; }
+.status, .hint { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+/* 8. Contact */
+.contact-layout { display: grid; gap: 2rem; margin-top: var(--space); }
+form { display: grid; gap: 1rem; }
+fieldset { display: grid; gap: 1rem; margin: 0; padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); }
+legend { padding-inline: 0.5rem; font-weight: 600; }
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+label { font-weight: 600; }
+input, select, textarea { inline-size: 100%; padding: 0.65rem 0.75rem; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--muted); border-radius: 0.375rem; }
+textarea { min-block-size: 8rem; resize: vertical; }
+input:user-invalid, textarea:user-invalid { border-color: #c2410c; border-width: 2px; }
+form button { justify-self: start; }
+
+/* 9. Footer */
+.site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; padding-block: 1.5rem; border-top: 1px solid var(--line); color: var(--muted); }
+.site-footer p { margin: 0; }
+
+/* 10. Breakpoints (min-width = mobile first) */
+@media (min-width: 48em) {
+  .site-header nav { order: 2; flex-basis: auto; }
+  .theme-toggle { order: 3; }
+  .hero { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: center; }
+}
+@media (min-width: 56em) {
+  .contact-layout { grid-template-columns: 1fr 1.6fr; align-items: start; }
+}
